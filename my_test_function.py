@@ -1,21 +1,24 @@
-import pandas as pd
+import csv
 
 def my_test_function(faasr):
-    """Simple test function"""
     
     # Get arguments from JSON config
     folder = faasr["InvokeServerArguments"]["folder"]
     output = faasr["InvokeServerArguments"]["output"]
     
-    # Create some test data
-    data = {
-        'test_numbers': [10, 20, 30, 40, 50],
-        'doubled': [20, 40, 60, 80, 100]
-    }
+    # Create test data
+    data = [
+        ['test_numbers', 'doubled'],  # header
+        [10, 20],
+        [20, 40],
+        [30, 60],
+        [40, 80],
+        [50, 100]
+    ]
     
-    df = pd.DataFrame(data)
-    
-    # Save the output
-    df.to_csv(output, index=False)
+    # Write CSV file using built-in csv module
+    with open(output, 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerows(data)
     
     print(f"Test function completed! Created {output}")
