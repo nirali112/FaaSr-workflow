@@ -14,14 +14,14 @@
       "FunctionName": "create_sample_data"
     },
     "sum": {
-      "FunctionName": "compute_sum",
+      "FunctionName": "my_test_function",
       "FaaSServer": "My_GitHub_Account",
       "Type": "Python",
       "Arguments": {
         "folder": "tutorial",
         "input2": "sample2.csv",
         "input1": "sample1.csv",
-        "output": "sumpy.csv"
+        "output": "my_test_output.csv"
       },
       "InvokeNext": []
     }
@@ -50,7 +50,7 @@
   "DefaultDataStore": "My_S3_Bucket",
   "FunctionGitRepo": {
     "create_sample_data": "FaaSr/FaaSr-tutorial",
-    "compute_sum": "renatof/FaaSr-examples"
+    "my_test_function": "nirali112/FaaSr-workflow"
   },
   "LoggingDataStore": "My_S3_Bucket",
   "FaaSrLog": "FaaSrLog",
