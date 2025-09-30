@@ -14,15 +14,10 @@
       "FunctionName": "create_sample_data"
     },
     "sum": {
-      "FunctionName": "my_test_function",
+      "FunctionName": "tidy_hobo_sticr_python",
       "FaaSServer": "My_GitHub_Account",
       "Type": "Python",
-      "Arguments": {
-        "folder": "tutorial",
-        "input2": "sample2.csv",
-        "input1": "sample1.csv",
-        "output": "my_test_output.csv"
-      },
+      "Arguments": {},
       "InvokeNext": []
     }
   },
@@ -50,7 +45,7 @@
   "DefaultDataStore": "My_S3_Bucket",
   "FunctionGitRepo": {
     "create_sample_data": "FaaSr/FaaSr-tutorial",
-    "my_test_function": "nirali112/FaaSr-workflow"
+    "tidy_hobo_sticr_python": "nirali112/FaaSr-workflow"
   },
   "LoggingDataStore": "My_S3_Bucket",
   "FaaSrLog": "FaaSrLog",
