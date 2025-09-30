@@ -47,6 +47,12 @@
     "create_sample_data": "FaaSr/FaaSr-tutorial",
     "tidy_hobo_sticr_python": "nirali112/FaaSr-workflow"
   },
+  "FunctionCRANPackage":{
+    "tidy_hobo_sticr_python": [
+      "pandas",
+      "os"
+    ]
+  },
   "LoggingDataStore": "My_S3_Bucket",
   "FaaSrLog": "FaaSrLog",
   "InvocationID": "",
