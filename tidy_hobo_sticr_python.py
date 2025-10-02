@@ -8,19 +8,19 @@ def tidy_hobo_sticr_python(faasr):
     
     print("Starting STIC data processing...")
     
-    # Step 1: Get list of CSV files from stic-data folder
-    folder_contents = faasr.faasr_get_folder_list(faasr_prefix="stic-data")
+    # Step 1: Get list of CSV files from tutorial folder
+    folder_contents = faasr.faasr_get_folder_list(faasr_prefix="tutorial")
     
     # Filter only CSV files
     csv_files = [f for f in folder_contents if f.endswith('.csv')]
     
     # Remove folder prefix
-    csv_files = [f.replace('stic-data/', '') for f in csv_files]
+    csv_files = [f.replace('tutorial/', '') for f in csv_files]
     
     print(f"Found {len(csv_files)} CSV files")
     
     if len(csv_files) == 0:
-        return "No CSV files found in stic-data folder"
+        return "No CSV files found in tutorial folder"
     
     # Step 2: Check which files need processing
     files_to_process = []
@@ -57,7 +57,7 @@ def tidy_hobo_sticr_python(faasr):
             
             # Download file
             faasr.faasr_get_file(
-                remote_folder="stic-data",
+                remote_folder="tutorial",
                 remote_file=file_name,
                 local_file="input.csv"
             )
