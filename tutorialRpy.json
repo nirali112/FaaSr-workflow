@@ -1,19 +1,6 @@
 {
   "ActionList": {
-    "start": {
-      "Arguments": {
-        "folder": "tutorial",
-        "output1": "sample1.csv",
-        "output2": "sample2.csv"
-      },
-      "InvokeNext": [
-        "sum"
-      ],
-      "FaaSServer": "My_GitHub_Account",
-      "Type": "R",
-      "FunctionName": "create_sample_data"
-    },
-    "sum": {
+    "tidy": {
       "FunctionName": "tidy_hobo_sticr_python",
       "FaaSServer": "My_GitHub_Account",
       "Type": "Python",
@@ -38,20 +25,12 @@
     }
   },
   "ActionContainers": {
-    "start": "ghcr.io/faasr/github-actions-r:dev",
-    "sum": "ghcr.io/faasr/github-actions-python:dev"
+    "tidy": "ghcr.io/faasr/github-actions-python:dev"
   },
-  "FunctionInvoke": "start",
+  "FunctionInvoke": "tidy",
   "DefaultDataStore": "My_S3_Bucket",
   "FunctionGitRepo": {
-    "create_sample_data": "FaaSr/FaaSr-tutorial",
     "tidy_hobo_sticr_python": "nirali112/FaaSr-workflow"
-  },
-  "FunctionCRANPackage":{
-    "tidy_hobo_sticr_python": [
-      "pandas",
-      "os"
-    ]
   },
   "LoggingDataStore": "My_S3_Bucket",
   "FaaSrLog": "FaaSrLog",
