@@ -1,14 +1,23 @@
 {
-  "WorkflowName": "tutorialRpy",
-  "FunctionInvoke": "tidy",
   "ActionList": {
+    "start": {
+      "Arguments": {
+        "folder": "tutorial",
+        "output1": "sample1.csv",
+        "output2": "sample2.csv"
+      },
+      "InvokeNext": [
+        "tidy"
+      ],
+      "FaaSServer": "My_GitHub_Account",
+      "Type": "R",
+      "FunctionName": "create_sample_data"
+    },
     "tidy": {
       "FunctionName": "tidy_hobo_sticr_python",
       "FaaSServer": "My_GitHub_Account",
       "Type": "Python",
-      "Arguments": {
-        "faasr_prefix": "tutorial"
-      },
+      "Arguments": {},
       "InvokeNext": []
     }
   },
@@ -29,11 +38,12 @@
     }
   },
   "ActionContainers": {
-    "start": "ghcr.io/faasr/github-actions-python:dev"
+    "start": "ghcr.io/faasr/github-actions-r:dev",
+    "tidy": "ghcr.io/faasr/github-actions-python:dev"
   },
-  "FunctionInvoke": "start",
   "DefaultDataStore": "My_S3_Bucket",
   "FunctionGitRepo": {
+    "create_sample_data": "FaaSr/FaaSr-tutorial",
     "tidy_hobo_sticr_python": "nirali112/FaaSr-workflow"
   },
   "LoggingDataStore": "My_S3_Bucket",
