@@ -17,7 +17,10 @@
       "FunctionName": "tidy_hobo_sticr_python",
       "FaaSServer": "My_GitHub_Account",
       "Type": "Python",
-      "Arguments": {},
+      "Arguments": {
+        "folder": "tutorial",
+        "faasr_prefix": "tutorial"
+      },
       "InvokeNext": []
     }
   },
@@ -41,6 +44,7 @@
     "start": "ghcr.io/faasr/github-actions-r:dev",
     "tidy": "ghcr.io/faasr/github-actions-python:dev"
   },
+  "FunctionInvoke": "start",
   "DefaultDataStore": "My_S3_Bucket",
   "FunctionGitRepo": {
     "create_sample_data": "FaaSr/FaaSr-tutorial",
@@ -49,10 +53,5 @@
   "LoggingDataStore": "My_S3_Bucket",
   "FaaSrLog": "FaaSrLog",
   "InvocationID": "",
-  "WorkflowName": "tutorialRpy",
-  "PyPIPackageDownloads": {
-    "tidy_hobo_sticr_python": [
-      "pandas"
-    ]
-  }
+  "WorkflowName": "tutorialRpy"
 }
