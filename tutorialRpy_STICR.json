@@ -18,7 +18,7 @@
       "FaaSServer": "My_GitHub_Account",
       "Type": "Python",
       "Arguments": {
-        "faasr_prefix": "tutorial"
+        "folder": "tutorial"
       },
       "InvokeNext": []
     }
