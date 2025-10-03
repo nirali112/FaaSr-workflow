@@ -4,7 +4,9 @@
       "FunctionName": "tidy_hobo_sticr_python",
       "FaaSServer": "My_GitHub_Account",
       "Type": "Python",
-      "Arguments": {},
+      "Arguments": {
+        "faasr_prefix": "tutorial"
+      },
       "InvokeNext": []
     }
   },
@@ -35,10 +37,5 @@
   "LoggingDataStore": "My_S3_Bucket",
   "FaaSrLog": "FaaSrLog",
   "InvocationID": "",
-  "WorkflowName": "tutorialRpy",
-  "PyPIPackageDownloads": {
-    "tidy_hobo_sticr_python": [
-      "pandas"
-    ]
-  }
+  "WorkflowName": "tutorialRpy"
 }
