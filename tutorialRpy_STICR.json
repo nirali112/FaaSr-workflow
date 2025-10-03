@@ -39,7 +39,7 @@
   },
   "ActionContainers": {
     "start": "ghcr.io/faasr/github-actions-r:dev",
-    "tidy": "ghcr.io/faasr/github-actions-python-geospatial:dev"
+    "tidy": "ghcr.io/faasr/github-actions-python:dev"
   },
   "FunctionInvoke": "start",
   "DefaultDataStore": "My_S3_Bucket",
