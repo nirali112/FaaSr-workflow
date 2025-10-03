@@ -1,12 +1,10 @@
 {
-  "ActionList": {
+  "FunctionList": {
     "tidy": {
       "FunctionName": "tidy_hobo_sticr_python",
       "FaaSServer": "My_GitHub_Account",
       "Type": "Python",
-      "Arguments": {
-        "faasr_prefix": "tutorial"
-      },
+      "Arguments": {},
       "InvokeNext": []
     }
   },
