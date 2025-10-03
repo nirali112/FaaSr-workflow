@@ -29,9 +29,8 @@
     }
   },
   "ActionContainers": {
-    "start": "ghcr.io/faasr/github-actions-python:dev"
+    "tidy": "ghcr.io/faasr/github-actions-python:dev"
   },
-  "FunctionInvoke": "start",
   "DefaultDataStore": "My_S3_Bucket",
   "FunctionGitRepo": {
     "tidy_hobo_sticr_python": "nirali112/FaaSr-workflow"
@@ -39,7 +38,6 @@
   "LoggingDataStore": "My_S3_Bucket",
   "FaaSrLog": "FaaSrLog",
   "InvocationID": "",
-  "WorkflowName": "tutorialRpy",
   "PyPIPackageDownloads": {
     "tidy_hobo_sticr_python": [
       "pandas"
