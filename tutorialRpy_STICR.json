@@ -37,5 +37,10 @@
   "LoggingDataStore": "My_S3_Bucket",
   "FaaSrLog": "FaaSrLog",
   "InvocationID": "",
-  "WorkflowName": "tutorialRpy"
+  "WorkflowName": "tutorialRpy",
+  "PyPIPackageDownloads": {
+    "tidy_hobo_sticr_python": [
+      "pandas"
+    ]
+  }
 }
