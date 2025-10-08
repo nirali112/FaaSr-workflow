@@ -12,7 +12,7 @@ def tidy_hobo_sticr_python():
     print("Starting STIC data processing...")
     
     # Step 1: Get list of CSV files from tutorial folder
-    folder_contents = faasr_get_folder_list(faasr_prefix="tutorial")
+    folder_contents = faasr_get_folder_list("tutorial")
     
     # Filter only CSV files
     csv_files = [f for f in folder_contents if f.endswith('.csv')]
