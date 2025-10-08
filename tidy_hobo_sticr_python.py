@@ -12,7 +12,8 @@ def tidy_hobo_sticr_python():
     print("Starting STIC data processing...")
     
     # Step 1: Get list of CSV files from tutorial folder
-    folder_contents = faasr_get_folder_list("tutorial")
+    # Need to specify data store name from JSON config
+    folder_contents = faasr_get_folder_list(data_store="My_S3_Bucket", prefix="tutorial")
     
     # Filter only CSV files
     csv_files = [f for f in folder_contents if f.endswith('.csv')]
@@ -35,6 +36,7 @@ def tidy_hobo_sticr_python():
         # Check if already processed
         try:
             faasr_get_file(
+                data_store="My_S3_Bucket",
                 remote_folder="sticr-workflow/step1-tidy",
                 remote_file=output_name,
                 local_file="test_check.csv"
@@ -60,6 +62,7 @@ def tidy_hobo_sticr_python():
             
             # Download file
             faasr_get_file(
+                data_store="My_S3_Bucket",
                 remote_folder="tutorial",
                 remote_file=file_name,
                 local_file="input.csv"
@@ -138,6 +141,7 @@ def tidy_hobo_sticr_python():
             
             # Upload to MinIO
             faasr_put_file(
+                data_store="My_S3_Bucket",
                 local_file="output.csv",
                 remote_folder="sticr-workflow/step1-tidy",
                 remote_file=output_filename
