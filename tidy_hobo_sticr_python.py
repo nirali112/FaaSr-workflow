@@ -14,7 +14,7 @@ def tidy_hobo_sticr_python():
     # Step 1: Get list of CSV files from tutorial folder
     # faasr_get_folder_list(server_name, faasr_prefix)
     # server_name is optional, uses DefaultDataStore if omitted
-    folder_contents = faasr_get_folder_list(faasr_prefix="tutorial")
+    folder_contents = faasr_get_folder_list("tutorial")
     
     # Filter only CSV files
     csv_files = [f for f in folder_contents if f.endswith('.csv')]
