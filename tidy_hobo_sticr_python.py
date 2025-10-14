@@ -3,12 +3,18 @@ import os
 from datetime import datetime
 
 def tidy_hobo_sticr_python():
+    """
+    Simple Python version - processes STIC CSV files
+    Uses only built-in libraries (no pandas)
+    FaaSr functions use DefaultDataStore from JSON automatically
+    """
     
     print("Starting STIC data processing...")
     
     # Step 1: Get list of CSV files from tutorial folder
-    # Using positional arguments: folder_prefix
-    folder_contents = faasr_get_folder_list("tutorial")
+    # faasr_get_folder_list(server_name, faasr_prefix)
+    # server_name is optional, uses DefaultDataStore if omitted
+    folder_contents = faasr_get_folder_list(faasr_prefix="tutorial")
     
     # Filter only CSV files
     csv_files = [f for f in folder_contents if f.endswith('.csv')]
@@ -31,7 +37,6 @@ def tidy_hobo_sticr_python():
         # Check if already processed
         try:
             faasr_get_file(
-                data_store="My_S3_Bucket",
                 remote_folder="sticr-workflow/step1-tidy",
                 remote_file=output_name,
                 local_file="test_check.csv"
@@ -56,8 +61,8 @@ def tidy_hobo_sticr_python():
             print(f"\nProcessing: {file_name}")
             
             # Download file
+            # faasr_get_file(server_name, remote_folder, remote_file, local_folder, local_file)
             faasr_get_file(
-                data_store="My_S3_Bucket",
                 remote_folder="tutorial",
                 remote_file=file_name,
                 local_file="input.csv"
@@ -135,8 +140,8 @@ def tidy_hobo_sticr_python():
                 writer.writerows(tidy_rows)
             
             # Upload to MinIO
+            # faasr_put_file(server_name, local_folder, local_file, remote_folder, remote_file)
             faasr_put_file(
-                data_store="My_S3_Bucket",
                 local_file="output.csv",
                 remote_folder="sticr-workflow/step1-tidy",
                 remote_file=output_filename
