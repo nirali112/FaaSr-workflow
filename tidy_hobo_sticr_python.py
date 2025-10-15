@@ -24,57 +24,58 @@ def tidy_hobo_sticr_python():
         #         os.remove("test_check.csv")
         # except:
         files_to_process.append(file_name)
-    
+
+    #step 3
+    # Step 3: Process and tidy each file
     for file_name in files_to_process:
-        
-        faasr_get_file("My_S3_Bucket", "tutorialSTICR", file_name, "", "input.csv")
-        
-        with open("input.csv", 'r') as f:
+    # Ensure file_name has no prefix
+        clean_name = file_name.replace('tutorialSTICR/', '')
+
+        # Download file from S3
+        s3_key = f"tutorialSTICR/{clean_name}"
+        local_input = "input.csv"
+
+        try:
+            faasr_get_file("My_S3_Bucket", "tutorialSTICR", clean_name, "", local_input)
+        except Exception as e:
+            print(f" Failed to download {s3_key}: {e}")
+            continue
+
+        # Read CSV and clean it
+        with open(local_input, 'r') as f:
             reader = csv.DictReader(f)
             rows = list(reader)
-        
+
+        if not rows:
+            print(f" Skipping {clean_name}: empty CSV")
+            continue
+
         columns = {col.lower(): col for col in rows[0].keys()}
-        
-        datetime_col = None
-        temp_col = None
-        cond_col = None
-        
-        for key, col in columns.items():
-            if 'date' in key or 'time' in key:
-                datetime_col = col
-                break
-        
-        for key, col in columns.items():
-            if 'temp' in key:
-                temp_col = col
-                break
-        
-        for key, col in columns.items():
-            if 'cond' in key or 'lux' in key or 'intensity' in key:
-                cond_col = col
-                break
-        
+
+        datetime_col = next((col for key, col in columns.items() if 'date' in key or 'time' in key), None)
+        temp_col = next((col for key, col in columns.items() if 'temp' in key), None)
+        cond_col = next((col for key, col in columns.items() if any(k in key for k in ['cond', 'lux', 'intensity'])), None)
+
         tidy_rows = []
         for row in rows:
             try:
-                dt = row[datetime_col]
-                temp = float(row[temp_col])
-                cond = float(row[cond_col])
-                
                 tidy_rows.append({
-                    'datetime': dt,
-                    'tempC': temp,
-                    'condUncal': cond
+                    'datetime': row[datetime_col],
+                    'tempC': float(row[temp_col]),
+                    'condUncal': float(row[cond_col])
                 })
-            except:
+            except (ValueError, KeyError, TypeError):
                 continue
-        
-        output_filename = file_name.replace('.csv', '_step1_tidy.csv')
+
+        output_filename = clean_name.replace('.csv', '_step1_tidy.csv')
+
         with open("output.csv", 'w', newline='') as f:
             writer = csv.DictWriter(f, fieldnames=['datetime', 'tempC', 'condUncal'])
             writer.writeheader()
             writer.writerows(tidy_rows)
-        
-        faasr_put_file("My_S3_Bucket", "", "output.csv", "sticr-workflow/step1-tidy", output_filename)
-        
-        print(f"Processed: {file_name}")
+
+        try:
+            faasr_put_file("My_S3_Bucket", "", "output.csv", "sticr-workflow/step1-tidy", output_filename)
+            print(f" Processed: {clean_name}")
+        except Exception as e:
+            print(f" Failed to upload {output_filename}: {e}")
