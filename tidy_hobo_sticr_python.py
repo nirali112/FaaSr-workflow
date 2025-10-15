@@ -6,7 +6,7 @@ def tidy_hobo_sticr_python():
     
     print("Starting STIC data processing...")
     
-    folder_contents = faasr_get_folder_list("tutorial")
+    folder_contents = faasr_get_folder_list("My_S3_Bucket", "tutorial")
     
     # Filter only CSV files
     csv_files = [f for f in folder_contents if f.endswith('.csv')]
