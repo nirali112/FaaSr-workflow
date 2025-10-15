@@ -21,8 +21,23 @@ def tidy_hobo_sticr_python():
     csv_files = [f.replace('tutorial/', '') for f in csv_files]
     
     print(f"Found {len(csv_files)} CSV files in tutorial folder:")
-    for f in csv_files:
-        print(f"  - {f}")
     
-    # Return None or empty dict instead of string
-    return None
+    files_to_process = []
+    
+    for file_name in csv_files:
+        output_name = file_name.replace('.csv', '_step1_tidy.csv')
+        
+        try:
+            faasr_get_file("My_S3_Bucket", "sticr-workflow/step1-tidy", output_name, "", "test_check.csv")
+            
+            if os.path.exists("test_check.csv"):
+                os.remove("test_check.csv")
+            print(f"SKIP: {file_name}")
+        except:
+            files_to_process.append(file_name)
+            print(f"PROCESS: {file_name}")
+    
+    print(f"Files to process: {len(files_to_process)}")
+    for f in files_to_process:
+        print(f"  - {f}")
+
