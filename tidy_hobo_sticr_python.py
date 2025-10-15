@@ -25,8 +25,6 @@ def tidy_hobo_sticr_python():
         except:
             files_to_process.append(file_name)
     
-    processed_count = 0
-    
     for file_name in files_to_process:
         
         faasr_get_file("My_S3_Bucket", "tutorialSTICR", file_name, "", "input.csv")
@@ -79,4 +77,4 @@ def tidy_hobo_sticr_python():
         
         faasr_put_file("My_S3_Bucket", "", "output.csv", "sticr-workflow/step1-tidy", output_filename)
         
-        processed_count += 1
+        print(f"Processed: {file_name}")
