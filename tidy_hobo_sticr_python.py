@@ -3,9 +3,17 @@ import os
 from datetime import datetime
 
 def tidy_hobo_sticr_python():
+    """
+    Simple Python version - processes STIC CSV files
+    Uses only built-in libraries (no pandas)
+    FaaSr functions use DefaultDataStore from JSON automatically
+    """
     
     print("Starting STIC data processing...")
     
+    # Step 1: Get list of CSV files from tutorial folder
+    # faasr_get_folder_list(server_name, faasr_prefix)
+    # Must pass "My_S3_Bucket" explicitly as first argument
     folder_contents = faasr_get_folder_list("My_S3_Bucket", "tutorial")
     
     # Filter only CSV files
@@ -28,11 +36,7 @@ def tidy_hobo_sticr_python():
         
         # Check if already processed
         try:
-            faasr_get_file(
-                remote_folder="sticr-workflow/step1-tidy",
-                remote_file=output_name,
-                local_file="test_check.csv"
-            )
+            faasr_get_file("My_S3_Bucket", "sticr-workflow/step1-tidy", output_name, "", "test_check.csv")
             # File exists, delete test file
             if os.path.exists("test_check.csv"):
                 os.remove("test_check.csv")
@@ -54,11 +58,7 @@ def tidy_hobo_sticr_python():
             
             # Download file
             # faasr_get_file(server_name, remote_folder, remote_file, local_folder, local_file)
-            faasr_get_file(
-                remote_folder="tutorial",
-                remote_file=file_name,
-                local_file="input.csv"
-            )
+            faasr_get_file("My_S3_Bucket", "tutorial", file_name, "", "input.csv")
             
             # Read CSV using built-in csv module
             with open("input.csv", 'r') as f:
@@ -133,11 +133,7 @@ def tidy_hobo_sticr_python():
             
             # Upload to MinIO
             # faasr_put_file(server_name, local_folder, local_file, remote_folder, remote_file)
-            faasr_put_file(
-                local_file="output.csv",
-                remote_folder="sticr-workflow/step1-tidy",
-                remote_file=output_filename
-            )
+            faasr_put_file("My_S3_Bucket", "", "output.csv", "sticr-workflow/step1-tidy", output_filename)
             
             print(f"SUCCESS: Saved {output_filename}")
             processed_count += 1
