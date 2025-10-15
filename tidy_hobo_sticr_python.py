@@ -1,26 +1,17 @@
+import csv
+import os
+
 def tidy_hobo_sticr_python():
-    """
-    Step 1: Get folder list and filter
-    """
     
-    print("Starting STIC data processing...")
-    
-    # Get list of files from tutorial folder
     folder_contents = faasr_get_folder_list("My_S3_Bucket", "tutorialSTICR")
     
-    # Filter only CSV files that are directly in tutorial/ (not subfolders)
     csv_files = []
     for f in folder_contents:
-        # Only files that start with "tutorialSTICR/" and have no more slashes after
         if f.startswith('tutorialSTICR/') and f.endswith('.csv'):
-            # Count slashes - should be exactly 1 (tutorial/filename.csv)
             if f.count('/') == 1:
                 csv_files.append(f)
     
-    # Remove the "tutorial/" prefix
     csv_files = [f.replace('tutorialSTICR/', '') for f in csv_files]
-    
-    print(f"Found {len(csv_files)} CSV files in tutorial folder:")
     
     files_to_process = []
     
@@ -29,15 +20,63 @@ def tidy_hobo_sticr_python():
         
         try:
             faasr_get_file("My_S3_Bucket", "sticr-workflow/step1-tidy", output_name, "", "test_check.csv")
-            
             if os.path.exists("test_check.csv"):
                 os.remove("test_check.csv")
-            print(f"SKIP: {file_name}")
         except:
             files_to_process.append(file_name)
-            print(f"PROCESS: {file_name}")
     
-    print(f"Files to process: {len(files_to_process)}")
-    for f in files_to_process:
-        print(f"  - {f}")
-
+    processed_count = 0
+    
+    for file_name in files_to_process:
+        
+        faasr_get_file("My_S3_Bucket", "tutorialSTICR", file_name, "", "input.csv")
+        
+        with open("input.csv", 'r') as f:
+            reader = csv.DictReader(f)
+            rows = list(reader)
+        
+        columns = {col.lower(): col for col in rows[0].keys()}
+        
+        datetime_col = None
+        temp_col = None
+        cond_col = None
+        
+        for key, col in columns.items():
+            if 'date' in key or 'time' in key:
+                datetime_col = col
+                break
+        
+        for key, col in columns.items():
+            if 'temp' in key:
+                temp_col = col
+                break
+        
+        for key, col in columns.items():
+            if 'cond' in key or 'lux' in key or 'intensity' in key:
+                cond_col = col
+                break
+        
+        tidy_rows = []
+        for row in rows:
+            try:
+                dt = row[datetime_col]
+                temp = float(row[temp_col])
+                cond = float(row[cond_col])
+                
+                tidy_rows.append({
+                    'datetime': dt,
+                    'tempC': temp,
+                    'condUncal': cond
+                })
+            except:
+                continue
+        
+        output_filename = file_name.replace('.csv', '_step1_tidy.csv')
+        with open("output.csv", 'w', newline='') as f:
+            writer = csv.DictWriter(f, fieldnames=['datetime', 'tempC', 'condUncal'])
+            writer.writeheader()
+            writer.writerows(tidy_rows)
+        
+        faasr_put_file("My_S3_Bucket", "", "output.csv", "sticr-workflow/step1-tidy", output_filename)
+        
+        processed_count += 1
