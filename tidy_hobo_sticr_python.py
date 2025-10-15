@@ -6,7 +6,7 @@ def tidy_hobo_sticr_python():
     print("Starting STIC data processing...")
     
     # Get list of files from tutorial folder
-    folder_contents = faasr_get_folder_list("My_S3_Bucket", "tutorial")
+    folder_contents = faasr_get_folder_list("My_S3_Bucket", "tutorialSTICR")
     
     # Filter only CSV files that are directly in tutorial/ (not subfolders)
     csv_files = []
