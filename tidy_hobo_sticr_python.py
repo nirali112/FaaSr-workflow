@@ -3,17 +3,9 @@ import os
 from datetime import datetime
 
 def tidy_hobo_sticr_python():
-    """
-    Simple Python version - processes STIC CSV files
-    Uses only built-in libraries (no pandas)
-    FaaSr functions use DefaultDataStore from JSON automatically
-    """
     
     print("Starting STIC data processing...")
     
-    # Step 1: Get list of CSV files from tutorial folder
-    # faasr_get_folder_list(server_name, faasr_prefix)
-    # server_name is optional, uses DefaultDataStore if omitted
     folder_contents = faasr_get_folder_list("tutorial")
     
     # Filter only CSV files
