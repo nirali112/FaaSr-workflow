@@ -27,55 +27,43 @@ def tidy_hobo_sticr_python():
 
     #step 3
     # Step 3: Process and tidy each file
-    for file_name in files_to_process:
-    # Ensure file_name has no prefix
-        clean_name = file_name.replace('tutorialSTICR/', '')
+    if not files_to_process:
+        print("DEBUG: No files found to process (files_to_process is empty).")
+        return
+    
+    # pick first file to test the get_file call (keeps scope minimal)
+    test_file = files_to_process[0]
+    
+    # make sure it's clean
+    test_file = test_file.replace('tutorialSTICR/', '')
+    
+    print("DEBUG: about to call faasr_get_file(...)")
+    print("DEBUG: server_name =", repr("My_S3_Bucket"))
+    print("DEBUG: remote_folder =", repr("tutorialSTICR"))
+    print("DEBUG: remote_file =", repr(test_file))
+    print("DEBUG: local_folder =", repr(""))
+    print("DEBUG: local_file =", repr("input.csv"))
+    # flush to ensure immediate console output in some runners
+    try:
+        import sys
+        sys.stdout.flush()
+    except:
+        pass
 
-        # Download file from S3
-        s3_key = f"tutorialSTICR/{clean_name}"
-        local_input = "input.csv"
-
-        try:
-            faasr_get_file("My_S3_Bucket", "tutorialSTICR", clean_name, "", local_input)
-        except Exception as e:
-            print(f" Failed to download {s3_key}: {e}")
-            continue
-
-        # Read CSV and clean it
-        with open(local_input, 'r') as f:
-            reader = csv.DictReader(f)
-            rows = list(reader)
-
-        if not rows:
-            print(f" Skipping {clean_name}: empty CSV")
-            continue
-
-        columns = {col.lower(): col for col in rows[0].keys()}
-
-        datetime_col = next((col for key, col in columns.items() if 'date' in key or 'time' in key), None)
-        temp_col = next((col for key, col in columns.items() if 'temp' in key), None)
-        cond_col = next((col for key, col in columns.items() if any(k in key for k in ['cond', 'lux', 'intensity'])), None)
-
-        tidy_rows = []
-        for row in rows:
-            try:
-                tidy_rows.append({
-                    'datetime': row[datetime_col],
-                    'tempC': float(row[temp_col]),
-                    'condUncal': float(row[cond_col])
-                })
-            except (ValueError, KeyError, TypeError):
-                continue
-
-        output_filename = clean_name.replace('.csv', '_step1_tidy.csv')
-
-        with open("output.csv", 'w', newline='') as f:
-            writer = csv.DictWriter(f, fieldnames=['datetime', 'tempC', 'condUncal'])
-            writer.writeheader()
-            writer.writerows(tidy_rows)
-
-        try:
-            faasr_put_file("My_S3_Bucket", "", "output.csv", "sticr-workflow/step1-tidy", output_filename)
-            print(f" Processed: {clean_name}")
-        except Exception as e:
-            print(f" Failed to upload {output_filename}: {e}")
+    try:
+        # Use named args to avoid positional confusion
+        faasr_get_file(
+            server_name="My_S3_Bucket",
+            remote_folder="tutorialSTICR",
+            remote_file=test_file,
+            local_folder="",
+            local_file="input.csv"
+        )
+        print("DEBUG: faasr_get_file() returned without raising an exception.")
+    except Exception as e:
+        print("DEBUG: Exception raised by faasr_get_file():", repr(e))
+        print("DEBUG: Full traceback:")
+        traceback.print_exc()
+    
+    print("DEBUG: End of minimal test. Returning from function.")
+    return
