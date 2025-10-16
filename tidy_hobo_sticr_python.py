@@ -29,11 +29,29 @@ def tidy_hobo_sticr_python():
         local_file="input.csv"
     )
     
-    print("File downloaded")
-    
     with open("input.csv", 'r') as f:
         reader = csv.DictReader(f)
         rows = list(reader)
     
-    print(f"Read {len(rows)} rows")
-    print(f"Columns: {list(rows[0].keys())}")
+    columns = {col.lower(): col for col in rows[0].keys()}
+    
+    datetime_col = None
+    temp_col = None
+    cond_col = None
+    
+    for key, col in columns.items():
+        if 'date' in key or 'time' in key:
+            datetime_col = col
+            break
+    
+    for key, col in columns.items():
+        if 'temp' in key:
+            temp_col = col
+            break
+    
+    for key, col in columns.items():
+        if 'cond' in key or 'lux' in key or 'intensity' in key:
+            cond_col = col
+            break
+    
+    print(f"Found columns - datetime: {datetime_col}, temp: {temp_col}, cond: {cond_col}")
