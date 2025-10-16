@@ -70,3 +70,22 @@ def tidy_hobo_sticr_python():
             continue
     
     print(f"Cleaned {len(tidy_rows)} rows")
+
+    output_filename = test_file.replace('.csv', '_step1_tidy.csv')
+    
+    with open("output.csv", 'w', newline='') as f:
+        writer = csv.DictWriter(f, fieldnames=['datetime', 'tempC', 'condUncal'])
+        writer.writeheader()
+        writer.writerows(tidy_rows)
+    
+    print(f"Wrote output.csv")
+    
+    faasr_put_file(
+        server_name="My_S3_Bucket",
+        local_folder="",
+        local_file="output.csv",
+        remote_folder="sticr-workflow/step1-tidy",
+        remote_file=output_filename
+    )
+    
+    print(f"Uploaded {output_filename}")
