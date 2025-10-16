@@ -54,4 +54,19 @@ def tidy_hobo_sticr_python():
             cond_col = col
             break
     
-    print(f"Found columns - datetime: {datetime_col}, temp: {temp_col}, cond: {cond_col}")
+    tidy_rows = []
+    for row in rows:
+        try:
+            dt = row[datetime_col]
+            temp = float(row[temp_col])
+            cond = float(row[cond_col])
+            
+            tidy_rows.append({
+                'datetime': dt,
+                'tempC': temp,
+                'condUncal': cond
+            })
+        except:
+            continue
+    
+    print(f"Cleaned {len(tidy_rows)} rows")
