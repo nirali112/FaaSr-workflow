@@ -1,7 +1,7 @@
 import csv
 import os
 
-def calibrate_stic_python():
+def calibrate_sticr_python():
     
     folder_contents = faasr_get_folder_list("My_S3_Bucket", "sticr-workflow/step1-tidy")
     
