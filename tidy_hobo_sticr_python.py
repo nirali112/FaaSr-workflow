@@ -17,25 +17,23 @@ def tidy_hobo_sticr_python():
     
     for file_name in csv_files:
         output_name = file_name.replace('.csv', '_step1_tidy.csv')
+        
         try:
-            faasr_get_file("My_S3_Bucket", "sticr-workflow/step1-tidy", output_name, "", "test_check.csv")
-            
+            faasr_get_file(
+                server_name="My_S3_Bucket",
+                remote_folder="sticr-workflow/step1-tidy",
+                remote_file=output_name,
+                local_folder="",
+                local_file="test_check.csv"
+            )
             if os.path.exists("test_check.csv"):
                 os.remove("test_check.csv")
-            print(f"SKIP: {file_name}")
         except:
             files_to_process.append(file_name)
-            print(f"PROCESS: {file_name}")
     
     if len(files_to_process) == 0:
         print("All files already processed in Step 1")
         return
-    
-    print(f"Files to process: {len(files_to_process)}")
-    for f in files_to_process:
-        print(f"  - {f}")
-
-        # files_to_process.append(file_name)
     
     for file_name in files_to_process:
         
