@@ -18,6 +18,13 @@
       "FaaSServer": "My_GitHub_Account",
       "Type": "Python",
       "Arguments": {},
+      "InvokeNext": ["calibrate"]
+    },
+    "calibrate": {
+      "FunctionName": "calibrate_sticr_python",
+      "FaaSServer": "My_GitHub_Account",
+      "Type": "Python",
+      "Arguments": {},
       "InvokeNext": []
     }
   },
@@ -45,7 +52,8 @@
   "DefaultDataStore": "My_S3_Bucket",
   "FunctionGitRepo": {
     "create_sample_data": "FaaSr/FaaSr-tutorial",
-    "tidy_hobo_sticr_python": "nirali112/FaaSr-workflow"
+    "tidy_hobo_sticr_python": "nirali112/FaaSr-workflow",
+    "calibrate_sticr_python": "nirali112/FaaSr-workflow"
   },
   "LoggingDataStore": "My_S3_Bucket",
   "FaaSrLog": "FaaSrLog",
