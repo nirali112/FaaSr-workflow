@@ -27,6 +27,10 @@ def tidy_hobo_sticr_python():
             files_to_process.append(file_name)
             print(f"PROCESS: {file_name}")
     
+    if len(files_to_process) == 0:
+        print("All files already processed in Step 1")
+        return
+    
     print(f"Files to process: {len(files_to_process)}")
     for f in files_to_process:
         print(f"  - {f}")
