@@ -92,7 +92,7 @@
 import csv
 import os
 
-def calibrate_stic_python():
+def calibrate_sticr_python():
     
     print("Step 2 Calibrate - Starting")
     
