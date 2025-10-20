@@ -25,6 +25,13 @@
       "FaaSServer": "My_GitHub_Account",
       "Type": "Python",
       "Arguments": {},
+      "InvokeNext": ["classify_wetdry"]
+    },
+    "classify_wetdry": {
+      "FunctionName": "classify_wetdry_python",
+      "FaaSServer": "My_GitHub_Account",
+      "Type": "Python",
+      "Arguments": {},
       "InvokeNext": []
     }
   },
@@ -47,14 +54,17 @@
   "ActionContainers": {
     "start": "ghcr.io/faasr/github-actions-r:dev",
     "tidy": "ghcr.io/faasr/github-actions-python:dev",
-    "calibrate": "ghcr.io/faasr/github-actions-python:dev"
+    "calibrate": "ghcr.io/faasr/github-actions-python:dev",
+    "classify_wetdry": "ghcr.io/faasr/github-actions-python:dev"
   },
   "FunctionInvoke": "start",
   "DefaultDataStore": "My_S3_Bucket",
   "FunctionGitRepo": {
     "create_sample_data": "FaaSr/FaaSr-tutorial",
     "tidy_hobo_sticr_python": "nirali112/FaaSr-workflow",
-    "calibrate_sticr_python": "nirali112/FaaSr-workflow"
+    "calibrate_sticr_python": "nirali112/FaaSr-workflow",
+    "classify_wetdry_python": "nirali112/FaaSr-workflow"
+
   },
   "LoggingDataStore": "My_S3_Bucket",
   "FaaSrLog": "FaaSrLog",
