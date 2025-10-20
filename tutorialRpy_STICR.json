@@ -25,9 +25,9 @@
       "FaaSServer": "My_GitHub_Account",
       "Type": "Python",
       "Arguments": {},
-      "InvokeNext": ["classify_wetdry"]
+      "InvokeNext": ["classify"]
     },
-    "classify_wetdry": {
+    "classify": {
       "FunctionName": "classify_wetdry_python",
       "FaaSServer": "My_GitHub_Account",
       "Type": "Python",
